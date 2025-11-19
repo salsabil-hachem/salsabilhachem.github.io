@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mobile Robot Design - Academic Project</title>
+  <link rel="stylesheet" href="../css/style.css?v=2">
+  <style>
+    /* Additional styles for project detail page */
+    .media-demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .demo-image {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border: 2px solid rgba(255,45,149,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .demo-image:hover {
+      transform: scale(1.02);
+    }
+    
+    /* Animated Tech Frame */
+    .tech-frame {
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.4));
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    
+    .tech-frame::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 18px;
+      background: linear-gradient(45deg, 
+        var(--accent), 
+        var(--accent-2), 
+        #ff2d95, 
+        #ff7fcf,
+        var(--accent));
+      background-size: 400% 400%;
+      z-index: -1;
+      animation: neonFrame 3s ease-in-out infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .tech-frame:hover::before {
+      opacity: 1;
+    }
+    
+    @keyframes neonFrame {
+      0%, 100% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+      50% {
+        background-position: 100% 50%;
+        filter: hue-rotate(45deg);
+      }
+    }
+    
+    .tech-frame::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 16px;
+      border: 2px solid transparent;
+      background: linear-gradient(45deg, transparent 40%, rgba(255,45,149,0.3) 50%, transparent 60%);
+      background-size: 300% 300%;
+      z-index: -1;
+      opacity: 0;
+      transition: all 0.4s ease;
+      animation: rotateFrame 4s linear infinite paused;
+    }
+    
+    .tech-frame:hover::after {
+      opacity: 1;
+      animation-play-state: running;
+    }
+    
+    @keyframes rotateFrame {
+      0% {
+        background-position: 0% 0%;
+        transform: perspective(500px) rotateY(0deg);
+      }
+      100% {
+        background-position: 300% 300%;
+        transform: perspective(500px) rotateY(360deg);
+      }
+    }
+    
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    
+    .tech-tag {
+      background: linear-gradient(135deg, rgba(255,45,149,0.1), rgba(255,127,207,0.05));
+      color: var(--accent);
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      border: 1px solid rgba(255,45,149,0.2);
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .tech-tag::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255,255,255,0.2), 
+        transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .tech-tag:hover {
+      background: linear-gradient(135deg, rgba(255,45,149,0.2), rgba(255,127,207,0.1));
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255,45,149,0.3);
+      color: #fff;
+    }
+    
+    .tech-tag:hover::before {
+      left: 100%;
+    }
+    
+    @keyframes frameVibration {
+      0%, 100% { transform: translateX(0) rotate(0); }
+      25% { transform: translateX(-2px) rotate(-0.5deg); }
+      50% { transform: translateX(2px) rotate(0.5deg); }
+      75% { transform: translateX(-1px) rotate(-0.3deg); }
+    }
+    
+    .tech-frame:hover {
+      animation: frameVibration 0.4s ease-in-out;
+      transform: translateY(-5px);
+    }
+
+    /* Larger description box */
+    .project-rects {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.4rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .project-rect:last-child {
+      grid-column: 1 / -1; /* Makes the last item span full width */
+      min-height: 500px; /* Increased height for more content */
+    }
+
+    .project-rect:last-child .desc-media {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+      height: 100%;
+    }
+
+    .project-rect:last-child .desc-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      height: 100%;
+    }
+
+    .project-rect:last-child .desc-text ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .project-rect:last-child .desc-text li {
+      padding: 0.8rem 0;
+      color: var(--muted);
+      font-size: 1.1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .project-rect:last-child .desc-text li:before {
+      content: "▸";
+      color: var(--accent);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .project-rect:last-child .desc-text li:last-child {
+      border-bottom: none;
+    }
+
+    .project-rect:last-child .desc-image {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .project-rect:last-child .desc-image img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .image-caption {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    
+    @media (max-width: 768px) {
+      .media-demo {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .tech-tags {
+        gap: 0.8rem;
+      }
+      
+      .tech-tag {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+      }
+
+      .project-rects {
+        grid-template-columns: 1fr;
+      }
+
+      .project-rect:last-child {
+        grid-column: 1;
+        min-height: 400px;
+      }
+
+      .project-rect:last-child .desc-media {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .project-rect:last-child .desc-image img {
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo">Salsabil Hachem</h1>
+      <ul class="nav-links">
+        <li><a href="../index.html#home">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../skills.html">Skills</a></li>
+        <li><a href="../projects.html" class="active">Projects</a></li>
+        <li><a href="../certificates.html">Certificates</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="section project-detail">
+    <div class="container">
+      <!-- Header: company logo + company name + project title -->
+      <div class="project-header">
+        <div class="company-block">
+          <p class="project-company">ACADEMIC PROJECT</p>
+        </div>
+        <h2 class="project-page-title">Mobile Robot Design & Fabrication</h2>
+      </div>
+
+      <!-- Rectangular subsections grid -->
+      <div class="project-rects">
+        <section class="project-rect">
+          <h3>Project Name</h3>
+          <p>Autonomous Mobile Robot with Sheet Metal Fabrication</p>
+        </section>
+
+        <section class="project-rect">
+          <h3>Objective</h3>
+          <p>Design and fabricate a mobile robot chassis using sheet metal bending and welding techniques, integrating mechanical and electrical systems.</p>
+        </section>
+
+        <section class="project-rect">
+          <h3>Description</h3>
+          <div class="desc-media">
+            <div class="desc-text">
+              <ul>
+                <li><strong>Chassis Design:</strong> Fabricated from 1.5mm thick sheet metal using manual cutting and 90° bending</li>
+                <li><strong>Sheet Metal Work:</strong> Three main components welded together for structural integrity</li>
+                <li><strong>Damping System:</strong> Integrated vibration absorption for improved stability and performance</li>
+                <li><strong>Electrical Integration:</strong> Complete wiring and motor control systems</li>
+                <li><strong>Cover Design:</strong> Removable cover for easy access to internal components</li>
+                <li><strong>Cost Optimization:</strong> Focus on manufacturing efficiency and material selection</li>
+              </ul>
+            </div>
+            <div class="desc-image">
+              <div>
+                <img src="Capture d'écran 2025-11-16 190125.png" alt="Robot Chassis Design">
+                <p class="image-caption">Chassis CAD Design</p>
+              </div>
+              <div>
+                <img src="Capture d'écran 2025-11-16 190250.png" alt="Electrical System">
+                <p class="image-caption">Electrical System Integration</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <p style="text-align: center; margin-top: 3rem;">
+        <a class="project-btn" href="../projects.html">← Back to Projects</a>
+      </p>
+    </div>
+  </main>
+
+</body>
+</html>

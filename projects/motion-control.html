@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Motion Control</title>
+  <link rel="stylesheet" href="../css/style.css?v=2">
+  <style>
+    /* Additional styles for project detail page */
+    .media-demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .demo-image {
+      width: 100%;
+      height: 350px;
+      object-fit: contain;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border: 2px solid rgba(255,45,149,0.1);
+      transition: transform 0.3s ease;
+      padding: 10px;
+    }
+    
+    .demo-image:hover {
+      transform: scale(1.02);
+    }
+    
+    /* Animated Tech Frame */
+    .tech-frame {
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.4));
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    
+    .tech-frame::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 18px;
+      background: linear-gradient(45deg, 
+        var(--accent), 
+        var(--accent-2), 
+        #ff2d95, 
+        #ff7fcf,
+        var(--accent));
+      background-size: 400% 400%;
+      z-index: -1;
+      animation: neonFrame 3s ease-in-out infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .tech-frame:hover::before {
+      opacity: 1;
+    }
+    
+    @keyframes neonFrame {
+      0%, 100% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+      50% {
+        background-position: 100% 50%;
+        filter: hue-rotate(45deg);
+      }
+    }
+    
+    .tech-frame::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 16px;
+      border: 2px solid transparent;
+      background: linear-gradient(45deg, transparent 40%, rgba(255,45,149,0.3) 50%, transparent 60%);
+      background-size: 300% 300%;
+      z-index: -1;
+      opacity: 0;
+      transition: all 0.4s ease;
+      animation: rotateFrame 4s linear infinite paused;
+    }
+    
+    .tech-frame:hover::after {
+      opacity: 1;
+      animation-play-state: running;
+    }
+    
+    @keyframes rotateFrame {
+      0% {
+        background-position: 0% 0%;
+        transform: perspective(500px) rotateY(0deg);
+      }
+      100% {
+        background-position: 300% 300%;
+        transform: perspective(500px) rotateY(360deg);
+      }
+    }
+    
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    
+    .tech-tag {
+      background: linear-gradient(135deg, rgba(255,45,149,0.1), rgba(255,127,207,0.05));
+      color: var(--accent);
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      border: 1px solid rgba(255,45,149,0.2);
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .tech-tag::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255,255,255,0.2), 
+        transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .tech-tag:hover {
+      background: linear-gradient(135deg, rgba(255,45,149,0.2), rgba(255,127,207,0.1));
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255,45,149,0.3);
+      color: #fff;
+    }
+    
+    .tech-tag:hover::before {
+      left: 100%;
+    }
+    
+    @keyframes frameVibration {
+      0%, 100% { transform: translateX(0) rotate(0); }
+      25% { transform: translateX(-2px) rotate(-0.5deg); }
+      50% { transform: translateX(2px) rotate(0.5deg); }
+      75% { transform: translateX(-1px) rotate(-0.3deg); }
+    }
+    
+    .tech-frame:hover {
+      animation: frameVibration 0.4s ease-in-out;
+      transform: translateY(-5px);
+    }
+
+    /* Larger demo and outcome sections */
+    .project-rects {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.4rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Make demo section span full width */
+    .project-rect:nth-child(3) {
+      grid-column: 1 / -1;
+      min-height: 450px;
+    }
+
+    /* Make outcome section span full width */
+    .project-rect:nth-child(4) {
+      grid-column: 1 / -1;
+      min-height: 450px;
+    }
+
+    /* Enhanced demo section */
+    .project-rect:nth-child(3) .media-demo {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .project-rect:nth-child(3) .demo-image {
+      height: 380px;
+    }
+
+    /* Enhanced outcome section */
+    .outcome-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+      margin-top: 1.5rem;
+    }
+
+    .outcome-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .outcome-image {
+      width: 100%;
+      height: 380px;
+      object-fit: contain;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border: 2px solid rgba(255,45,149,0.1);
+      padding: 10px;
+    }
+
+    /* Description image - clearer */
+    .desc-image img {
+      width: 100%;
+      height: 280px;
+      object-fit: contain;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      padding: 8px;
+    }
+
+    /* Company logo - clearer */
+    .company-logo {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      padding: 5px;
+    }
+
+    /* Image quality enhancement */
+    img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      image-rendering: high-quality;
+    }
+
+    /* Ensure all images are visible */
+    .demo-item,
+    .desc-image,
+    .outcome-image-container {
+      position: relative;
+    }
+
+    .demo-caption {
+      text-align: center;
+      margin-top: 0.8rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .project-rects {
+        grid-template-columns: 1fr;
+      }
+
+      .project-rect:nth-child(3),
+      .project-rect:nth-child(4) {
+        grid-column: 1;
+        min-height: 350px;
+      }
+
+      .media-demo {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .tech-tags {
+        gap: 0.8rem;
+      }
+      
+      .tech-tag {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+      }
+
+      .outcome-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .project-rect:nth-child(3) .demo-image,
+      .outcome-image {
+        height: 280px;
+      }
+
+      .desc-image img {
+        height: 220px;
+      }
+
+      .project-rect:nth-child(3) .media-demo {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .company-logo {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    /* Error handling for images */
+    img {
+      background-color: rgba(255,255,255,0.02);
+    }
+
+    img[src=""] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo">Salsabil Hachem</h1>
+      <ul class="nav-links">
+        <li><a href="../index.html#home">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../skills.html">Skills</a></li>
+        <li><a href="../projects.html" class="active">Projects</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="section project-detail">
+    <div class="container">
+      <!-- Header: company logo + company name + project title -->
+      <div class="project-header">
+        <div class="company-block">
+          <img class="company-logo" src="image.png" alt="KTIX-LAB logo" onerror="this.style.display='none'">
+          <p class="project-company">KTIX‑LAB</p>
+        </div>
+        <h2 class="project-page-title">Motion Control — Servo Drives & EtherCAT</h2>
+      </div>
+
+      <!-- Rectangular subsections grid -->
+      <div class="project-rects">
+        <section class="project-rect">
+          <h3>Description</h3>
+          <div class="desc-media">
+            <div class="desc-text">
+              <p>
+                I developed a motion control system for an industrial robot using servo drives and EtherCAT.
+                The system focuses on precise synchronization, real‑time control and efficient data exchange between controller and actuators.
+              </p>
+            </div>
+            <div class="desc-image">
+              <img src="" alt="Project structure diagram" onerror="this.style.display='none'">
+            </div>
+          </div>
+        </section>
+
+        <section class="project-rect">
+          <h3>Technologies Used</h3>
+          <div class="tech-frame">
+            <div class="tech-tags">
+              <span class="tech-tag">EtherCAT</span>
+              <span class="tech-tag">Servo drives</span>
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">MATLAB</span>
+              <span class="tech-tag">C++</span>
+              <span class="tech-tag">Linux</span>
+              <span class="tech-tag">DS402</span>
+              <span class="tech-tag">Debugging</span>
+              <span class="tech-tag">Agile</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="project-rect">
+          <h3>Image / Demo</h3>
+          <div class="media-demo">
+            <div class="demo-item">
+              <img class="demo-image" src="structure.png" alt="Motion Control System Setup" onerror="this.style.display='none'">
+              <p class="demo-caption">System architecture and hardware setup</p>
+            </div>
+            <div class="demo-item">
+              <img class="demo-image" src="Capture d'écran 2025-11-16 194849.png" alt="Motion Control GUI" onerror="this.style.display='none'">
+              <p class="demo-caption">Real-time control interface results</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="project-rect">
+          <h3>Outcome</h3>
+          <div class="outcome-content">
+            <div class="outcome-text">
+              <p>The system achieved tight synchronization and reliable real-time performance in tests with the following results:</p>
+              <ul>
+                <li>Sub-millisecond synchronization accuracy</li>
+                <li>Real-time fault detection and recovery</li>
+                <li>Improved system stability and response time</li>
+                <li>Successful integration with industrial automation protocols</li>
+              </ul>
+            </div>
+            <div class="outcome-image-container">
+              <img class="outcome-image" src="Capture d'écran 2025-09-24 090851.png" alt="Motion Control Performance Results" onerror="this.style.display='none'">
+              <p class="demo-caption">Performance test results showing synchronization accuracy</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <p style="text-align: center; margin-top: 3rem;">
+        <a class="project-btn" href="../projects.html">← Back to Projects</a>
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Salsabil Hachem. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // JavaScript to handle image loading and quality
+    document.addEventListener('DOMContentLoaded', function() {
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        // Add loading attribute for better performance
+        img.setAttribute('loading', 'lazy');
+        
+        img.addEventListener('error', function() {
+          console.log('Image failed to load:', this.src);
+          this.style.display = 'none';
+        });
+        
+        img.addEventListener('load', function() {
+          console.log('Image loaded successfully:', this.src);
+          // Force high quality rendering
+          this.style.imageRendering = 'high-quality';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

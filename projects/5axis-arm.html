@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Robotics Design Engineer - Ktix-Lab</title>
+  <link rel="stylesheet" href="../css/style.css?v=2">
+  <style>
+    /* Additional styles for project detail page */
+    .media-demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .demo-image {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border: 2px solid rgba(255,45,149,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .demo-image:hover {
+      transform: scale(1.02);
+    }
+    
+    /* Animated Tech Frame */
+    .tech-frame {
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.4));
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    
+    .tech-frame::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 18px;
+      background: linear-gradient(45deg, 
+        var(--accent), 
+        var(--accent-2), 
+        #ff2d95, 
+        #ff7fcf,
+        var(--accent));
+      background-size: 400% 400%;
+      z-index: -1;
+      animation: neonFrame 3s ease-in-out infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .tech-frame:hover::before {
+      opacity: 1;
+    }
+    
+    @keyframes neonFrame {
+      0%, 100% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+      50% {
+        background-position: 100% 50%;
+        filter: hue-rotate(45deg);
+      }
+    }
+    
+    .tech-frame::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 16px;
+      border: 2px solid transparent;
+      background: linear-gradient(45deg, transparent 40%, rgba(255,45,149,0.3) 50%, transparent 60%);
+      background-size: 300% 300%;
+      z-index: -1;
+      opacity: 0;
+      transition: all 0.4s ease;
+      animation: rotateFrame 4s linear infinite paused;
+    }
+    
+    .tech-frame:hover::after {
+      opacity: 1;
+      animation-play-state: running;
+    }
+    
+    @keyframes rotateFrame {
+      0% {
+        background-position: 0% 0%;
+        transform: perspective(500px) rotateY(0deg);
+      }
+      100% {
+        background-position: 300% 300%;
+        transform: perspective(500px) rotateY(360deg);
+      }
+    }
+    
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    
+    .tech-tag {
+      background: linear-gradient(135deg, rgba(255,45,149,0.1), rgba(255,127,207,0.05));
+      color: var(--accent);
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      border: 1px solid rgba(255,45,149,0.2);
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .tech-tag::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255,255,255,0.2), 
+        transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .tech-tag:hover {
+      background: linear-gradient(135deg, rgba(255,45,149,0.2), rgba(255,127,207,0.1));
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255,45,149,0.3);
+      color: #fff;
+    }
+    
+    .tech-tag:hover::before {
+      left: 100%;
+    }
+    
+    @keyframes frameVibration {
+      0%, 100% { transform: translateX(0) rotate(0); }
+      25% { transform: translateX(-2px) rotate(-0.5deg); }
+      50% { transform: translateX(2px) rotate(0.5deg); }
+      75% { transform: translateX(-1px) rotate(-0.3deg); }
+    }
+    
+    .tech-frame:hover {
+      animation: frameVibration 0.4s ease-in-out;
+      transform: translateY(-5px);
+    }
+    
+    @media (max-width: 768px) {
+      .media-demo {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .tech-tags {
+        gap: 0.8rem;
+      }
+      
+      .tech-tag {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo">Salsabil Hachem</h1>
+      <ul class="nav-links">
+        <li><a href="../index.html#home">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../skills.html">Skills</a></li>
+        <li><a href="../projects.html" class="active">Projects</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="section project-detail">
+    <div class="container">
+      <!-- Header: company logo + company name + project title -->
+      <div class="project-header">
+        <div class="company-block">
+          <img class="company-logo" src="image.png" alt="Ktix-Lab logo">
+          <p class="project-company">KTIX‑LAB</p>
+        </div>
+        <h2 class="project-page-title">Robotics Design Engineer - Academic Project</h2>
+      </div>
+
+      <!-- Rectangular subsections grid -->
+      <div class="project-rects">
+        <section class="project-rect">
+          <h3>Project Name</h3>
+          <p>5-Axis Robotic Arm Design & Optimization</p>
+        </section>
+
+        <section class="project-rect">
+          <h3>Description</h3>
+          <div class="desc-media">
+            <div class="desc-text">
+              <p>
+                As part of an academic project at Ktix-Lab, I designed and optimized a 5-axis robotic arm 
+                through analysis and sizing using SolidWorks. The project focused on creating an efficient 
+                and cost-effective robotic solution for industrial applications.
+              </p>
+            </div>
+            <div class="desc-image">
+              <img src="1.jpeg" alt="5-Axis Robot Design">
+            </div>
+          </div>
+        </section>
+
+        <section class="project-rect">
+          <h3>Technologies Used</h3>
+          <div class="tech-frame">
+            <div class="tech-tags">
+              <span class="tech-tag">Mechanical Design</span>
+              <span class="tech-tag">SolidWorks</span>
+              <span class="tech-tag">Cost Optimization</span>
+              <span class="tech-tag">Prototyping</span>
+              <span class="tech-tag">Cable Routing</span>
+              <span class="tech-tag">Kinematic Analysis</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="project-rect">
+          <h3>Key Achievements</h3>
+          <ul>
+            <li>Designed a 5-axis robot through analysis and sizing using SolidWorks</li>
+            <li>Optimized mechanical design, reducing production costs by 30%</li>
+            <li>Simulated cable routing in SolidWorks and implemented homing with reference marks</li>
+            <li>Applied technical stack: Mechanical Design, SolidWorks, Cost Optimization, Prototyping</li>
+          </ul>
+        </section>
+
+        <section class="project-rect">
+          <h3>Image / Demo</h3>
+          <div class="media-demo">
+            
+            <div class="demo-item">
+              <img class="demo-image" src="2.jpeg" alt="Robot CAD Design">
+              <p class="demo-caption"></p>
+            </div>
+            <div class="demo-item">
+              <img class="demo-image" src="3.png" alt="Cable Routing Simulation">
+              <p class="demo-caption">5-Axis robot CAD model and assembly</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="project-rect">
+          <h3>Challenges</h3>
+          <ul>
+            <li>Balancing structural integrity with weight reduction</li>
+            <li>Optimizing production costs while maintaining performance</li>
+            <li>Implementing efficient cable management in constrained spaces</li>
+            <li>Ensuring precise homing and reference positioning</li>
+          </ul>
+        </section>
+
+        <section class="project-rect">
+          <h3>Outcome</h3>
+          <p>The project resulted in a fully designed 5-axis robotic arm with the following achievements:</p>
+          <ul>
+            <li>30% reduction in production costs through design optimization</li>
+            <li>Complete CAD model with detailed assembly instructions</li>
+            <li>Efficient cable routing solution minimizing interference</li>
+            <li>Precise homing system with reference markers</li>
+          </ul>
+        </section>
+      </div>
+
+      <p style="text-align: center; margin-top: 3rem;">
+        <a class="project-btn" href="../projects.html">← Back to Projects</a>
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Salsabil Hachem. All rights reserved.</p>
+  </footer>
+</body>
+</html>
